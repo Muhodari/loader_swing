@@ -19,18 +19,23 @@ public class Loader {
                 return new Dimension(400, 300);
             }
         };
+        panel.setLayout(new BorderLayout());
+        panel.setBackground(Color.BLUE);
 
         JLabel waitLable=new JLabel("<html><font size='6' color=white>Please wait...</font></html>");
         waitLable.setFont(new Font("Verdana", Font.PLAIN, 25));
-//        waitLable.setText("Please wait...");
+        waitLable.setForeground(Color.white);
+
         waitLable.setBackground(Color.white);
-          panel.setBackground(Color.BLUE);
+
+        waitLable.setVerticalAlignment(JLabel.BOTTOM);
+
         JLayer<JPanel> jlayer = new JLayer<>(panel, layerUI);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(jlayer);
 //
         frame.pack();
-        panel.add(waitLable);
+        panel.add(waitLable, BorderLayout.CENTER);
 
         frame.setVisible(true);
         layerUI.start();
@@ -46,15 +51,33 @@ public class Loader {
 
     public static void main(String args[]) {
 
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-               Loader loading_Test = new Loader();
+                Loader loading_Test = new Loader();
             }
         });
+
+     //setting timer to load
+        Timer timer=new Timer(10_000 ,new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Loader loading_Test = null;
+                    }
+                });
+            }
+        });
+
+        timer.setInitialDelay(10_000);
+        timer.setRepeats(false);
+        timer.restart();
+
+
     }
-
-
 
 }
 
