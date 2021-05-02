@@ -22,7 +22,8 @@ public class Loader {
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.BLUE);
 
-        JLabel waitLable=new JLabel("<html><font size='6' color=white>Please wait...</font></html>");
+
+        JLabel waitLable=new JLabel("<html><font size='6' color=white>Please wait...</font></html>",JLabel.CENTER);
         waitLable.setFont(new Font("Verdana", Font.PLAIN, 25));
         waitLable.setForeground(Color.white);
 
@@ -38,18 +39,31 @@ public class Loader {
         panel.add(waitLable, BorderLayout.CENTER);
 
         frame.setVisible(true);
-        layerUI.start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+  layerUI.start();
+
+  ActionListener managePlay=new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+          layerUI.stop();
+          panel.remove(waitLable);
+      }
+  };
+
+        Timer timer = new Timer(6000,managePlay);
+        timer.setInitialDelay(5000);
+        timer.setRepeats(false);
+        timer.start();
+
+
     }
 
 
 
 
     public static void main(String args[]) {
+
+
+
 
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -60,21 +74,7 @@ public class Loader {
         });
 
      //setting timer to load
-        Timer timer=new Timer(10_000 ,new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        Loader loading_Test = null;
-                    }
-                });
-            }
-        });
 
-        timer.setInitialDelay(10_000);
-        timer.setRepeats(false);
-        timer.restart();
 
 
     }
@@ -126,7 +126,9 @@ class WaitLayerUI extends LayerUI<JPanel> implements ActionListener {
 
 
         }
+
         g2.dispose();
+
     }
 
 
